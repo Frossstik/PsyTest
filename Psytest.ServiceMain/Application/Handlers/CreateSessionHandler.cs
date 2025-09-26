@@ -1,0 +1,34 @@
+﻿using MediatR;
+using Psytest.ServiceMain.Application.Commands;
+using Psytest.ServiceMain.Domain.Entities;
+using Psytest.ServiceMain.Infrastructure;
+
+namespace Psytest.ServiceMain.Application.Handlers
+{
+    public class CreateTestSessionHandler : IRequestHandler<CreateTestSessionCommand, Guid>
+    {
+        private readonly MainDbContext _db;
+
+        public CreateTestSessionHandler(MainDbContext db)
+        {
+            _db = db;
+        }
+
+        public async Task<Guid> Handle(CreateTestSessionCommand request, CancellationToken cancellationToken)
+        {
+            var session = new TestSession
+            {
+                Id = Guid.NewGuid(),
+                TestId = request.TestId,
+                UserId = request.UserId,
+                StartedAt = DateTime.UtcNow,
+                Status = "InProgress"
+            };
+
+            _db.TestSessions.Add(session);
+            await _db.SaveChangesAsync(cancellationToken);
+
+            return session.Id;
+        }
+    }
+}

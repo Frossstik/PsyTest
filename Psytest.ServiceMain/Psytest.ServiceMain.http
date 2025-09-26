@@ -1,0 +1,6 @@
+@Psytest.ServiceMain_HostAddress = http://localhost:5211
+
+GET {{Psytest.ServiceMain_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+@PsyTest.ServiceIdentity_HostAddress = http://localhost:5211
+
+GET {{PsyTest.ServiceIdentity_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
