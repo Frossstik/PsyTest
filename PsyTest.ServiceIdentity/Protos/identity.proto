@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "PsyTest.identity";
+
+package identity;
+
+// Запрос на валидацию токена
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+// Ответ с данными пользователя
+message ValidateTokenResponse {
+  bool isValid = 1;
+  string userId = 2;
+}
+
+// gRPC сервис Identity
+service Identity {
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}

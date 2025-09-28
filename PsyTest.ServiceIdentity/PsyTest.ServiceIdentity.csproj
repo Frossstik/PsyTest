@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.32.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.72.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
@@ -27,6 +33,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PsyTest.ServiceDefaults\PsyTest.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Psytest.ServiceMain\Psytest.ServiceMain.csproj" />
   </ItemGroup>
 
-</Project>
+	<ItemGroup>
+		<Protobuf Include="Protos\identity.proto" GrpcServices="Server" ProtoRoot="Protos" />
+	</ItemGroup></Project>

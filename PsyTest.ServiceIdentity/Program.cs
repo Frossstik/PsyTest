@@ -23,6 +23,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddGrpc();
+
 var jwtKey = builder.Configuration["Jwt:Key"]!;
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
 
@@ -75,6 +77,8 @@ strategy.Execute(() =>
         Console.WriteLine("Новых миграций нет.");
     }
 });
+
+app.MapGrpcService<IdentityGrpcService>();
 
 if (app.Environment.IsDevelopment())
 {

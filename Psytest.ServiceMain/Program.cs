@@ -7,6 +7,10 @@ using Psytest.ServiceMain.Domain.Logic;
 using Psytest.ServiceMain.Domain.Options;
 using Polly;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using static PsyTest.identity.Identity;
+using Psytest.ServiceMain;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,13 +34,46 @@ builder.Services.Configure<ReportsOptions>(builder.Configuration.GetSection("Rep
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+
+
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
-        options.Authority = builder.Configuration["IdentityService:Authority"];
-        options.Audience = "main-api";
-        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+
+
+        // Логи
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Ошибка аутентификации: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                var claims = string.Join(", ", context.Principal.Claims.Select(c => $"{c.Type}:{c.Value}"));
+                Console.WriteLine($"Токен валидирован. Claims: {claims}");
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                Console.WriteLine("Вызван Challenge — токен не прошёл проверку или отсутствует");
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // Controllers + Swagger
@@ -67,6 +104,13 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+builder.Services.AddGrpcClient<IdentityClient>(o =>
+{
+    o.Address = new Uri("https://localhost:7182"); // имя контейнера из Aspire
+});
+
+builder.Services.AddScoped<IdentityGrpcClient>();
 
 // Domain Logic
 builder.Services.AddScoped<ITestProcessor, LusherTestProcessor>();

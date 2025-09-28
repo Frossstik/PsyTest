@@ -19,8 +19,10 @@ namespace PsyTest.ServiceIdentity.Common
         {
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email!)
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),  // ID
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),        // email
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),   // чтобы User.Identity.Name работал
+            new Claim("role", "User")
         };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -28,7 +30,7 @@ namespace PsyTest.ServiceIdentity.Common
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
-                audience: null,
+                audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds);

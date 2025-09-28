@@ -8,14 +8,17 @@ namespace Psytest.ServiceMain.Application.Handlers
     public class CreateTestSessionHandler : IRequestHandler<CreateTestSessionCommand, Guid>
     {
         private readonly MainDbContext _db;
+        private readonly IdentityGrpcClient _identityGrpcClient;
 
-        public CreateTestSessionHandler(MainDbContext db)
+        public CreateTestSessionHandler(IdentityGrpcClient identityGrpcClient, MainDbContext db)
         {
+            _identityGrpcClient = identityGrpcClient;
             _db = db;
         }
 
         public async Task<Guid> Handle(CreateTestSessionCommand request, CancellationToken cancellationToken)
         {
+
             var session = new TestSession
             {
                 Id = Guid.NewGuid(),
