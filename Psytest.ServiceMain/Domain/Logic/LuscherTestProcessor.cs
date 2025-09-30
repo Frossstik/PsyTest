@@ -93,6 +93,8 @@ namespace Psytest.ServiceMain.Domain.Logic
 
         private string GenerateDocxReport(Guid sessionId, string resultText, LuscherAnswers answers)
         {
+            var luscherAnswers = (LuscherAnswers)answers;
+
             var fileName = $"luscher_report_{sessionId}_{DateTime.Now:yyyyMMdd_HHmmss}.docx";
             var filePath = Path.Combine(_reportsDirectory, fileName);
 

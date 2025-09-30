@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="9.5.0" />
     <PackageReference Include="DocX" Version="5.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.32.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.32.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     <PackageReference Include="Grpc.Tools" Version="2.72.0">
       <PrivateAssets>all</PrivateAssets>
@@ -28,7 +28,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-    <PackageReference Include="Polly" Version="8.6.3" />
+    <PackageReference Include="Polly" Version="8.6.4" />
+    <PackageReference Include="ScottPlot" Version="5.0.56" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
 
@@ -47,5 +48,10 @@
       <GrpcServices>Server</GrpcServices>
     </None>
   </ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Reports\" />
+	</ItemGroup>
 
 </Project>

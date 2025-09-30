@@ -4,6 +4,6 @@ using Psytest.ServiceMain.Domain.Entities;
 
 namespace Psytest.ServiceMain.Application.Commands
 {
-    public record ProcessLuscherTestCommand(Guid SessionId, LuscherAnswers Answers)
+    public record ProcessPbqTestCommand(Guid SessionId, PbqAnswers Answers)
         : IRequest<TestResult>;
 }

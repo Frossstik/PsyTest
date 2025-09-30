@@ -34,6 +34,19 @@ namespace Psytest.ServiceMain.Infrastructure
                 "эмоциональное состояние и черты характера человека."
             });
 
+            modelBuilder.Entity<Test>().HasData(new Test
+            {
+                Id = Guid.Parse(_configuration["SeedData:PbqTestGuid"]),
+                Name = "Тест PBQ",
+                ShortDescription = "Психологический тест поведенческих качеств (PBQ)",
+                Description = "Психологический тест, " +
+                "разработанный для оценки поведенческих" +
+                " качеств человека, основан на анализе " +
+                "типичных моделей поведения в различных ситуациях. " +
+                "Тест помогает выявить личностные " +
+                "особенности и адаптивность к окружающей среде."
+            });
+
             modelBuilder.Entity<Test>(e =>
             {
                 e.HasKey(t => t.Id);

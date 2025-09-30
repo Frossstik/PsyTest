@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PsyTest.Frontend\psytest.frontend.esproj" />
     <ProjectReference Include="..\PsyTest.ServiceDefaults\PsyTest.ServiceDefaults.csproj" />
     <ProjectReference Include="..\PsyTest.ServiceIdentity\PsyTest.ServiceIdentity.csproj" />
     <ProjectReference Include="..\Psytest.ServiceMain\Psytest.ServiceMain.csproj" />

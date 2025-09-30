@@ -54,6 +54,15 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -102,5 +111,7 @@ app.MapPost("/login", async (LoginDto dto, IMediator mediator) =>
     var token = await mediator.Send(new LoginUserCommand(dto.Email, dto.Password));
     return token is null ? Results.Unauthorized() : Results.Ok(new { token });
 });
+
+app.UseCors();
 
 app.Run();

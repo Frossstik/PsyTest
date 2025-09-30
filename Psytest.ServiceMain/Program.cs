@@ -8,9 +8,9 @@ using Psytest.ServiceMain.Domain.Options;
 using Polly;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using static PsyTest.identity.Identity;
-using Psytest.ServiceMain;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Psytest.ServiceMain.Infrastructure.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +33,7 @@ builder.Services.Configure<ReportsOptions>(builder.Configuration.GetSection("Rep
 // CQRS (MediatR)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddTransient<ITestProcessor, PbqTestProcessor>();
 
 
 
@@ -114,6 +115,15 @@ builder.Services.AddScoped<IdentityGrpcClient>();
 
 // Domain Logic
 builder.Services.AddScoped<ITestProcessor, LusherTestProcessor>();
+builder.Services.AddScoped<ITestProcessor, PbqTestProcessor>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -150,5 +160,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapDefaultEndpoints();
 app.MapControllers();
+
+app.UseCors();
 
 app.Run();

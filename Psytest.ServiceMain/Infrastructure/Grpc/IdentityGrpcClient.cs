@@ -1,6 +1,6 @@
 ﻿using PsyTest.identity;
 
-namespace Psytest.ServiceMain
+namespace Psytest.ServiceMain.Infrastructure.Grpc
 {
     public class IdentityGrpcClient
     {

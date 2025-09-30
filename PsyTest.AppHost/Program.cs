@@ -18,11 +18,13 @@ var rabbit = builder.AddRabbitMQ("rabbit");
 // Identity Service
 var identityService = builder.AddProject<Projects.PsyTest_ServiceIdentity>("identityservice")
     .WithReference(identityDb)
+    .WaitFor(dependency: identityDb)
     .WithReference(rabbit);
 
 // Main Service
 var mainService = builder.AddProject<Projects.Psytest_ServiceMain>("mainservice")
     .WithReference(mainDb)
+    .WaitFor(dependency: mainDb)
     .WithReference(identityService) // main «знает» об identity
     .WithReference(rabbit);
 
@@ -34,7 +36,11 @@ var mainService = builder.AddProject<Projects.Psytest_ServiceMain>("mainservice"
 var frontend = builder.AddNpmApp("frontend", "../psytest.frontend")
     .WithReference(mainService)
     .WithReference(identityService)
-    //.WithReference(paymentService)
-    .WithHttpEndpoint(env: "VITE_API_BASE");
+    .WaitFor(mainService)
+    .WaitFor(identityService)
+    .WithEnvironment("BROWSER", "none")
+    .WithHttpEndpoint(env: "VITE_PORT") // Aspire динамически назначит порт и подставит в VITE_PORT
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 builder.Build().Run();

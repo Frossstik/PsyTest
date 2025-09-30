@@ -2,6 +2,7 @@
 using Psytest.ServiceMain.Application.Commands;
 using Psytest.ServiceMain.Domain.Entities;
 using Psytest.ServiceMain.Infrastructure;
+using Psytest.ServiceMain.Infrastructure.Grpc;
 
 namespace Psytest.ServiceMain.Application.Handlers
 {

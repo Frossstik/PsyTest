@@ -1,4 +1,5 @@
-﻿using Psytest.ServiceMain.Domain.Entities;
+﻿using Psytest.ServiceMain.Domain.DTOs;
+using Psytest.ServiceMain.Domain.Entities;
 
 namespace Psytest.ServiceMain.Domain.Logic
 {

@@ -10,12 +10,12 @@ namespace Psytest.ServiceMain.Application.Handlers
     public class ProcessLuscherTestHandler : IRequestHandler<ProcessLuscherTestCommand, TestResult>
     {
         private readonly MainDbContext _db;
-        private readonly ITestProcessor _processor;
+        private readonly LusherTestProcessor _processor;
 
-        public ProcessLuscherTestHandler(MainDbContext db, ITestProcessor processor)
+        public ProcessLuscherTestHandler(MainDbContext db, IEnumerable<ITestProcessor> processors)
         {
             _db = db;
-            _processor = processor;
+            _processor = processors.OfType<LusherTestProcessor>().First();
         }
 
         public async Task<TestResult> Handle(ProcessLuscherTestCommand request, CancellationToken cancellationToken)

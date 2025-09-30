@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Psytest.ServiceMain.Application.Commands;
 using Psytest.ServiceMain.Application.Queries;
+using Psytest.ServiceMain.Domain.DTOs;
 using Psytest.ServiceMain.Domain.Entities;
 
 namespace Psytest.ServiceMain.Controllers
@@ -25,16 +26,21 @@ namespace Psytest.ServiceMain.Controllers
             return Ok(tests);
         }
 
-        /// <summary>
-        /// Обработать тест Люшера
-        /// </summary>
         [HttpPost("{sessionId:guid}/luscher")]
-        public async Task<ActionResult<TestResult>> ProcessLuscherTest(Guid sessionId, [FromBody] ProcessLuscherTestCommand command)
+        public async Task<ActionResult<TestResult>> ProcessLuscherTest(Guid sessionId, [FromBody] LuscherAnswers answers)
         {
-            if (sessionId != command.SessionId)
-                return BadRequest("SessionId не совпадает");
-
+            var command = new ProcessLuscherTestCommand(sessionId, answers);
             var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost("{sessionId:guid}/pbq")]
+        public async Task<ActionResult<TestResult>> ProcessPbqTest(Guid sessionId, [FromBody] PbqAnswers answers)
+        {
+            var command = new ProcessPbqTestCommand(sessionId, answers);
+            var result = await _mediator.Send(command);
+
             return Ok(result);
         }
     }
