@@ -13,6 +13,9 @@ namespace PsyTest.ServiceIdentity.Common
         public JwtTokenGenerator(IConfiguration config)
         {
             _config = config;
+            Console.WriteLine("JWT Key: " + _config["Jwt:Key"]);
+            Console.WriteLine("Token exp: " + DateTimeOffset.FromUnixTimeSeconds(1759334980).UtcDateTime);
+            Console.WriteLine("Now UTC: " + DateTimeOffset.UtcNow);
         }
 
         public string Generate(ApplicationUser user)
@@ -23,7 +26,7 @@ namespace PsyTest.ServiceIdentity.Common
             new Claim(JwtRegisteredClaimNames.Email, user.Email),        // email
             new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),   // чтобы User.Identity.Name работал
             new Claim("role", "User")
-        };
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -34,6 +37,8 @@ namespace PsyTest.ServiceIdentity.Common
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds);
+
+
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

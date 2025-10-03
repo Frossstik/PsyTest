@@ -1,13 +1,13 @@
 ﻿import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import Header from "../components/Header";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
     const [tests, setTests] = useState([]);
     const [search, setSearch] = useState("");
-    const { logout, token } = useAuth();
-
-    // Допустим email хранится в токене (или временно в localStorage)
-    const userEmail = localStorage.getItem("userEmail") || "user@example.com";
+    const [profile, setProfile] = useState(null);
+    const { token } = useAuth();
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_MAIN_URL}/api/tests`)
@@ -15,38 +15,33 @@ export default function Home() {
             .then((data) => setTests(data));
     }, []);
 
+    useEffect(() => {
+        if (token) {
+            fetch(`${import.meta.env.VITE_IDENTITY_URL}/profile`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then((res) => res.json())
+                .then((data) => setProfile(data));
+        }
+    }, [token]);
+
     const filteredTests = tests.filter((t) =>
         t.name.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Хедер */}
-            <header className="flex items-center justify-between bg-white px-6 py-4 shadow">
-                <div className="flex items-center space-x-4">
-                    <h1 className="text-xl font-bold text-cyan-700">PsyTest</h1>
-                    <input
-                        type="text"
-                        placeholder="Поиск тестов..."
-                        className="px-3 py-1 border rounded-lg focus:ring-2 focus:ring-cyan-500"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
-                <div className="flex items-center space-x-4">
-                    <span className="text-gray-700">{userEmail}</span>
-                    <button
-                        onClick={logout}
-                        className="bg-cyan-600 text-white px-3 py-1 rounded-lg hover:bg-cyan-700"
-                    >
-                        Выйти
-                    </button>
-                </div>
-            </header>
+            <Header profile={profile} />
 
-            {/* Контент */}
             <main className="p-6">
                 <h2 className="text-2xl font-bold mb-4">Список тестов</h2>
+                <input
+                    type="text"
+                    placeholder="Поиск тестов..."
+                    className="px-3 py-1 border rounded-lg focus:ring-2 focus:ring-[color:var(--color-brand)] mb-4"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {filteredTests.map((t) => (
                         <div
@@ -55,9 +50,12 @@ export default function Home() {
                         >
                             <h3 className="text-lg font-semibold">{t.name}</h3>
                             <p className="text-gray-600">{t.shortDescription}</p>
-                            <button className="mt-4 w-full bg-cyan-500 text-white py-2 rounded-lg hover:bg-cyan-600">
+                            <Link
+                                to={`/tests/${t.id}`}
+                                className="mt-4 block text-center w-full bg-[color:var(--color-brand)] text-white py-2 rounded-lg hover:bg-[color:var(--color-brand-dark)] transition"
+                            >
                                 Пройти
-                            </button>
+                            </Link>
                         </div>
                     ))}
                 </div>

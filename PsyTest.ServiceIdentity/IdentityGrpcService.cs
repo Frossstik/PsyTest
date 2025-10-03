@@ -18,6 +18,8 @@ namespace PsyTest.ServiceIdentity
         {
             _userManager = userManager;
             _config = config;
+            Console.WriteLine("Token exp: " + DateTimeOffset.FromUnixTimeSeconds(1759334980).UtcDateTime);
+            Console.WriteLine("Now UTC: " + DateTimeOffset.UtcNow);
         }
 
         public override async Task<ValidateTokenResponse> ValidateToken(ValidateTokenRequest request, ServerCallContext context)

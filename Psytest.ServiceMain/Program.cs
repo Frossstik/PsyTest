@@ -11,6 +11,7 @@ using static PsyTest.identity.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Psytest.ServiceMain.Infrastructure.Grpc;
+using Psytest.ServiceMain.Domain.Logic.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,6 @@ builder.AddServiceDefaults();
 builder.Services.AddDbContext<MainDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("maindb"));
-    //options.ConfigureWarnings(w =>
-    //    w.Ignore(RelationalEventId.PendingModelChangesWarning));
 });
 
 
@@ -115,7 +114,9 @@ builder.Services.AddScoped<IdentityGrpcClient>();
 
 // Domain Logic
 builder.Services.AddScoped<ITestProcessor, LusherTestProcessor>();
+builder.Services.AddScoped<IReportGenerator, LusherTestProcessor>();
 builder.Services.AddScoped<ITestProcessor, PbqTestProcessor>();
+builder.Services.AddScoped<IReportGenerator, PbqTestProcessor>();
 
 builder.Services.AddCors(options =>
 {

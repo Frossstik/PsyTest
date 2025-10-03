@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using Psytest.ServiceMain.Application.Commands;
 using Psytest.ServiceMain.Application.Queries;
 using Psytest.ServiceMain.Domain.DTOs;
 using Psytest.ServiceMain.Domain.Entities;
+using ScottPlot.TickGenerators.Financial;
 
 namespace Psytest.ServiceMain.Controllers
 {
@@ -24,6 +26,16 @@ namespace Psytest.ServiceMain.Controllers
         {
             var tests = await _mediator.Send(new GetTestsQuery());
             return Ok(tests);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<Test>> GetById(Guid id)
+        {
+            var test = await _mediator.Send(new GetTestByIdQuery(id));
+            if (test == null)
+                return NotFound();
+
+            return Ok(test);
         }
 
         [HttpPost("{sessionId:guid}/luscher")]

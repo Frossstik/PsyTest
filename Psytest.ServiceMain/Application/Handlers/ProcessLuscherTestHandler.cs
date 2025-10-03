@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Psytest.ServiceMain.Application.Commands;
 using Psytest.ServiceMain.Domain.Entities;
 using Psytest.ServiceMain.Domain.Logic;
+using Psytest.ServiceMain.Domain.Logic.Interfaces;
 using Psytest.ServiceMain.Infrastructure;
 
 namespace Psytest.ServiceMain.Application.Handlers

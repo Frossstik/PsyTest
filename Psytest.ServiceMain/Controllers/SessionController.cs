@@ -17,19 +17,16 @@ namespace Psytest.ServiceMain.Controllers
             _mediator = mediator;
         }
 
-        [Authorize] // теперь доступ только с валидным JWT
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateSession([FromBody] CreateSessionRequest request)
+        [Authorize]
+        [HttpPost("{testId:guid}/sessions")]
+        public async Task<IActionResult> CreateSession(Guid testId)
         {
-            // достаём userId из токена (sub -> NameIdentifier)
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
-            {
                 return Unauthorized("Невалидный токен");
-            }
 
             var sessionId = await _mediator.Send(new CreateTestSessionCommand(
-                request.TestId,
+                testId,
                 Guid.Parse(userId)
             ));
 

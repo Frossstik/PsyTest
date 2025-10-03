@@ -6,10 +6,11 @@ using Xceed.Words.NET;
 using Xceed.Document.NET;
 using Microsoft.Extensions.Options;
 using Psytest.ServiceMain.Domain.Options;
+using Psytest.ServiceMain.Domain.Logic.Interfaces;
 
 namespace Psytest.ServiceMain.Domain.Logic
 {
-    public class LusherTestProcessor : ITestProcessor
+    public class LusherTestProcessor : ITestProcessor, IReportGenerator
     {
         private readonly string _reportsDirectory;
 
@@ -49,14 +50,16 @@ namespace Psytest.ServiceMain.Domain.Logic
             }
 
             var resultText = string.Join("\n\n", resultLines);
-            var reportPath = GenerateDocxReport(session.Id, resultText, luscherAnswers);
+            //var reportPath = GenerateDocxReport(session.Id, resultText, luscherAnswers);
+
+            var fileBytes = GenerateDocxReport(session.Id, answers, resultText);
 
             return new TestResult
             {
                 Id = Guid.NewGuid(),
                 SessionId = session.Id,
                 ResultText = resultText,
-                ReportPath = reportPath
+                ReportBytes = fileBytes
             };
         }
 
@@ -72,7 +75,7 @@ namespace Psytest.ServiceMain.Domain.Logic
                 }
                 else if (i == 2)
                 {
-                    keys.Add("x" + answers[i].ToString() + "x" + answers[i + 1].ToString());
+                    keys.Add("х" + answers[i].ToString() + "х" + answers[i + 1].ToString());
                 }
                 else if (i == 4)
                 {
@@ -91,44 +94,98 @@ namespace Psytest.ServiceMain.Domain.Logic
             return keys;
         }
 
-        private string GenerateDocxReport(Guid sessionId, string resultText, LuscherAnswers answers)
+        //private string GenerateDocxReport(Guid sessionId, string resultText, LuscherAnswers answers)
+        //{
+        //    var luscherAnswers = (LuscherAnswers)answers;
+
+        //    var fileName = $"luscher_report_{sessionId}_{DateTime.Now:yyyyMMdd_HHmmss}.docx";
+        //    var filePath = Path.Combine(_reportsDirectory, fileName);
+
+        //    using (var doc = DocX.Create(filePath))
+        //    {
+        //        // Заголовок
+        //        var title = doc.InsertParagraph("Результаты теста Люшера");
+        //        title.FontSize(16).Bold().Alignment = Alignment.center;
+        //        doc.InsertParagraph("");
+
+        //        // Информация о сессии
+        //        var sessionInfo = doc.InsertParagraph($"Дата тестирования: {DateTime.Now:dd.MM.yyyy HH:mm}");
+        //        sessionInfo.FontSize(12);
+        //        doc.InsertParagraph("");
+
+        //        // Данные ответов
+        //        var answersHeader = doc.InsertParagraph("Ответы:");
+        //        answersHeader.FontSize(14).Bold();
+
+        //        var positiveAnswers = doc.InsertParagraph($"Первый выбор: {string.Join(", ", answers.Positive)}");
+        //        var negativeAnswers = doc.InsertParagraph($"Второй выбор: {string.Join(", ", answers.Negative)}");
+        //        doc.InsertParagraph("");
+
+        //        // Результаты
+        //        var resultsHeader = doc.InsertParagraph("Интерпретация:");
+        //        resultsHeader.FontSize(14).Bold();
+
+        //        var resultsParagraph = doc.InsertParagraph(resultText);
+        //        resultsParagraph.FontSize(12);
+
+        //        doc.Save();
+        //    }
+
+        //    return filePath;
+        //}
+
+        //private byte[] GenerateDocxInMemory(string content)
+        //{
+        //    using var mem = new MemoryStream();
+        //    using (var doc = DocX.Create(mem))
+        //    {
+        //        doc.InsertParagraph("Результат теста Люшера")
+        //           .FontSize(16)
+        //           .Bold()
+        //           .SpacingAfter(20);
+
+        //        doc.InsertParagraph(content)
+        //           .FontSize(12)
+        //           .SpacingAfter(10);
+
+        //        doc.Save(); // сохраняем документ в MemoryStream
+        //    }
+        //    return mem.ToArray();
+        //}
+
+        public byte[] GenerateDocxReport(Guid sessionId, object answers, string resultText)
         {
             var luscherAnswers = (LuscherAnswers)answers;
 
-            var fileName = $"luscher_report_{sessionId}_{DateTime.Now:yyyyMMdd_HHmmss}.docx";
-            var filePath = Path.Combine(_reportsDirectory, fileName);
-
-            using (var doc = DocX.Create(filePath))
+            using (var ms = new MemoryStream())
             {
-                // Заголовок
-                var title = doc.InsertParagraph("Результаты теста Люшера");
-                title.FontSize(16).Bold().Alignment = Alignment.center;
-                doc.InsertParagraph("");
+                using (var doc = DocX.Create(ms))
+                {
+                    // Заголовок
+                    var title = doc.InsertParagraph("Результаты теста Люшера");
+                    title.FontSize(16).Bold().Alignment = Alignment.center;
+                    doc.InsertParagraph("");
 
-                // Информация о сессии
-                var sessionInfo = doc.InsertParagraph($"Дата тестирования: {DateTime.Now:dd.MM.yyyy HH:mm}");
-                sessionInfo.FontSize(12);
-                doc.InsertParagraph("");
+                    // Информация о сессии
+                    var sessionInfo = doc.InsertParagraph($"Дата тестирования: {DateTime.Now:dd.MM.yyyy HH:mm}");
+                    sessionInfo.FontSize(12);
+                    doc.InsertParagraph("");
 
-                // Данные ответов
-                var answersHeader = doc.InsertParagraph("Ответы:");
-                answersHeader.FontSize(14).Bold();
+                    // Ответы
+                    doc.InsertParagraph("Ответы:").FontSize(14).Bold();
+                    doc.InsertParagraph($"Первый выбор: {string.Join(", ", luscherAnswers.Positive)}");
+                    doc.InsertParagraph($"Второй выбор: {string.Join(", ", luscherAnswers.Negative)}");
+                    doc.InsertParagraph("");
 
-                var positiveAnswers = doc.InsertParagraph($"Первый выбор: {string.Join(", ", answers.Positive)}");
-                var negativeAnswers = doc.InsertParagraph($"Второй выбор: {string.Join(", ", answers.Negative)}");
-                doc.InsertParagraph("");
+                    // Интерпретация
+                    doc.InsertParagraph("Интерпретация:").FontSize(14).Bold();
+                    doc.InsertParagraph(resultText).FontSize(12);
 
-                // Результаты
-                var resultsHeader = doc.InsertParagraph("Интерпретация:");
-                resultsHeader.FontSize(14).Bold();
+                    doc.Save();
+                }
 
-                var resultsParagraph = doc.InsertParagraph(resultText);
-                resultsParagraph.FontSize(12);
-
-                doc.Save();
+                return ms.ToArray(); // возвращаем docx как байты
             }
-
-            return filePath;
         }
 
         private readonly Dictionary<string, string> _results = new()
