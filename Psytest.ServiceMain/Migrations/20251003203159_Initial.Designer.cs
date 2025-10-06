@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Psytest.ServiceMain.Infrastructure;
@@ -12,9 +13,11 @@ using Psytest.ServiceMain.Infrastructure;
 namespace Psytest.ServiceMain.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251003203159_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,21 +46,21 @@ namespace Psytest.ServiceMain.Migrations
 
                     b.ToTable("Tests");
 
-                    //b.HasData(
-                    //    new
-                    //    {
-                    //        Id = new Guid("d22530e2-9c20-4365-9265-4bb6c9b8e8c5"),
-                    //        Description = "Психологический тест, разработанный Максом Люшером, основан на идее о том, что цветовые предпочтения могут раскрыть эмоциональное состояние и черты характера человека.",
-                    //        Name = "Тест Люшера",
-                    //        ShortDescription = "Психологический цветовой тест Макса Люшера"
-                    //    },
-                    //    new
-                    //    {
-                    //        Id = new Guid("f49ef84b-8d71-4d0e-94ee-24e09fbeeca0"),
-                    //        Description = "Психологический тест, разработанный для оценки поведенческих качеств человека, основан на анализе типичных моделей поведения в различных ситуациях. Тест помогает выявить личностные особенности и адаптивность к окружающей среде.",
-                    //        Name = "Тест PBQ",
-                    //        ShortDescription = "Психологический тест поведенческих качеств (PBQ)"
-                    //    });
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d22530e2-9c20-4365-9265-4bb6c9b8e8c5"),
+                            Description = "Психологический тест, разработанный Максом Люшером, основан на идее о том, что цветовые предпочтения могут раскрыть эмоциональное состояние и черты характера человека.",
+                            Name = "Тест Люшера",
+                            ShortDescription = "Психологический цветовой тест Макса Люшера"
+                        },
+                        new
+                        {
+                            Id = new Guid("f49ef84b-8d71-4d0e-94ee-24e09fbeeca0"),
+                            Description = "Психологический тест, разработанный для оценки поведенческих качеств человека, основан на анализе типичных моделей поведения в различных ситуациях. Тест помогает выявить личностные особенности и адаптивность к окружающей среде.",
+                            Name = "Тест PBQ",
+                            ShortDescription = "Психологический тест поведенческих качеств (PBQ)"
+                        });
                 });
 
             modelBuilder.Entity("Psytest.ServiceMain.Domain.Entities.TestAnswer", b =>

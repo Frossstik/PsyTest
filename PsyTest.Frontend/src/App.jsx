@@ -10,7 +10,9 @@ import EditProfile from "./pages/EditProfile";
 import LuscherTest from "./pages/Tests/LuscherTest";
 import Test from "./pages/Test";
 import Result from "./pages/Results";
-import PbqTest from "./pages/tests/PbqTest";
+import PbqTest from "./pages/Tests/PbqTest";
+import SchmieschekTest from "./pages/Tests/SchmieschekTest";
+
 
 export default function App() {
     return (
@@ -54,6 +56,12 @@ export default function App() {
                     <Route path="/tests/:id/pbq" element={
                         <ProtectedRoute>
                             <PbqTest />
+                        </ProtectedRoute>
+                    }
+                    />
+                    <Route path="/tests/:id/schmieschek" element={
+                        <ProtectedRoute>
+                            <SchmieschekTest/>
                         </ProtectedRoute>
                     }
                     />

@@ -6,5 +6,7 @@ namespace Psytest.ServiceMain.Domain.Logic.Interfaces
     public interface ITestProcessor
     {
         TestResult Process(TestSession session, object answers);
+
+        byte[] GenerateDocxReport(Guid sessionId, object answers, string resultText);
     }
 }

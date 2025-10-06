@@ -22,30 +22,30 @@ namespace Psytest.ServiceMain.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                Id = Guid.Parse(_configuration["SeedData:LuscherTestGuid"]),
-                Name = "Тест Люшера",
-                ShortDescription = "Психологический цветовой тест Макса Люшера",
-                Description = "Психологический тест, " +
-                "разработанный Максом Люшером, " +
-                "основан на идее о том, " +
-                "что цветовые предпочтения могут раскрыть " +
-                "эмоциональное состояние и черты характера человека."
-            });
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    Id = Guid.Parse(_configuration["SeedData:LuscherTestGuid"]),
+            //    Name = "Тест Люшера",
+            //    ShortDescription = "Психологический цветовой тест Макса Люшера",
+            //    Description = "Психологический тест, " +
+            //    "разработанный Максом Люшером, " +
+            //    "основан на идее о том, " +
+            //    "что цветовые предпочтения могут раскрыть " +
+            //    "эмоциональное состояние и черты характера человека."
+            //});
 
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                Id = Guid.Parse(_configuration["SeedData:PbqTestGuid"]),
-                Name = "Тест PBQ",
-                ShortDescription = "Психологический тест поведенческих качеств (PBQ)",
-                Description = "Психологический тест, " +
-                "разработанный для оценки поведенческих" +
-                " качеств человека, основан на анализе " +
-                "типичных моделей поведения в различных ситуациях. " +
-                "Тест помогает выявить личностные " +
-                "особенности и адаптивность к окружающей среде."
-            });
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    Id = Guid.Parse(_configuration["SeedData:PbqTestGuid"]),
+            //    Name = "Тест PBQ",
+            //    ShortDescription = "Психологический тест поведенческих качеств (PBQ)",
+            //    Description = "Психологический тест, " +
+            //    "разработанный для оценки поведенческих" +
+            //    " качеств человека, основан на анализе " +
+            //    "типичных моделей поведения в различных ситуациях. " +
+            //    "Тест помогает выявить личностные " +
+            //    "особенности и адаптивность к окружающей среде."
+            //});
 
             modelBuilder.Entity<Test>(e =>
             {

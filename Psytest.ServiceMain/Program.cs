@@ -114,9 +114,12 @@ builder.Services.AddScoped<IdentityGrpcClient>();
 
 // Domain Logic
 builder.Services.AddScoped<ITestProcessor, LusherTestProcessor>();
-builder.Services.AddScoped<IReportGenerator, LusherTestProcessor>();
+
 builder.Services.AddScoped<ITestProcessor, PbqTestProcessor>();
-builder.Services.AddScoped<IReportGenerator, PbqTestProcessor>();
+builder.Services.AddScoped<IChartGenerator, PbqTestProcessor>();
+
+builder.Services.AddScoped<ITestProcessor, SchmieschekTestProcessor>();
+builder.Services.AddScoped<IChartGenerator, SchmieschekTestProcessor>();
 
 builder.Services.AddCors(options =>
 {

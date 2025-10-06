@@ -7,13 +7,12 @@ using ScottPlot;
 
 namespace Psytest.ServiceMain.Domain.Logic
 {
-    public class PbqTestProcessor : ITestProcessor, IReportGenerator
+    public class PbqTestProcessor : ITestProcessor, IChartGenerator
     {
         public TestResult Process(TestSession session, object answers)
         {
             var pbq = (PbqAnswers)answers;
 
-            // Быстрый расчёт
             var (scaleNames, sums, z, maxIdx) = Compute(pbq);
 
             var lines = new List<string>();
@@ -24,10 +23,8 @@ namespace Psytest.ServiceMain.Domain.Logic
 
             string resultText = string.Join(Environment.NewLine, lines);
 
-            // Генерация графика
             var chartBytes = GenerateBarChartBytes(scaleNames, z);
 
-            // Генерация отчёта
             var reportBytes = GenerateDocxReport(session.Id, answers, resultText);
 
             return new TestResult
@@ -91,9 +88,6 @@ namespace Psytest.ServiceMain.Domain.Logic
                 doc.InsertTable(table);
                 doc.InsertParagraph("");
 
-                // Краткий текст (тот же, что и в ответ)
-                //doc.InsertParagraph("Краткий отчёт:").FontSize(14).Bold();
-                //doc.InsertParagraph(resultText).FontSize(12);
 
                 // Заключение
                 doc.InsertParagraph("Заключение:").FontSize(14).Bold();
@@ -156,8 +150,7 @@ namespace Psytest.ServiceMain.Domain.Logic
             return (scaleNames, sums, z, maxIdx);
         }
 
-        // ScottPlot → PNG bytes (через временный файл, чтобы гарантированно работало в любой версии)
-        private static byte[] GenerateBarChartBytes(string[] labels, List<double> values)
+        public byte[] GenerateBarChartBytes(string[] labels, List<double> values)
         {
             var plt = new Plot();
             double[] data = values.ToArray();

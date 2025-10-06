@@ -10,7 +10,7 @@ using Psytest.ServiceMain.Domain.Logic.Interfaces;
 
 namespace Psytest.ServiceMain.Domain.Logic
 {
-    public class LusherTestProcessor : ITestProcessor, IReportGenerator
+    public class LusherTestProcessor : ITestProcessor
     {
         private readonly string _reportsDirectory;
 

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Psytest.ServiceMain.Application.Queries;
+using Psytest.ServiceMain.Application.Queries.DownloadReport;
+using Psytest.ServiceMain.Application.Queries.GetTestHistory;
+using Psytest.ServiceMain.Application.Queries.GetTestResult;
 using Psytest.ServiceMain.Infrastructure;
 
 namespace Psytest.ServiceMain.Controllers
@@ -48,6 +51,13 @@ namespace Psytest.ServiceMain.Controllers
             return file;
         }
 
+        [Authorize]
+        [HttpGet("history/{userId:guid}")]
+        public async Task<IActionResult> GetHistory(Guid userId)
+        {
+            var history = await _mediator.Send(new GetTestHistoryQuery(userId));
+            return Ok(history);
+        }
 
     }
 }

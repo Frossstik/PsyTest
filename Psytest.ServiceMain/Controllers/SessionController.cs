@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Psytest.ServiceMain.Application.Commands;
+using Psytest.ServiceMain.Application.Commands.CreateSession;
 using System.Security.Claims;
 
 namespace Psytest.ServiceMain.Controllers

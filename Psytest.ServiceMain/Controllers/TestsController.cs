@@ -3,7 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using Psytest.ServiceMain.Application.Commands;
+using Psytest.ServiceMain.Application.Commands.CreateTest;
+using Psytest.ServiceMain.Application.Commands.ProcessLuscherTest;
+using Psytest.ServiceMain.Application.Commands.ProcessPbqTest;
+using Psytest.ServiceMain.Application.Commands.ProcessSchmieschekTest;
 using Psytest.ServiceMain.Application.Queries;
+using Psytest.ServiceMain.Application.Queries.GetTestById;
+using Psytest.ServiceMain.Application.Queries.GetTests;
 using Psytest.ServiceMain.Domain.DTOs;
 using Psytest.ServiceMain.Domain.Entities;
 using ScottPlot.TickGenerators.Financial;
@@ -38,6 +44,13 @@ namespace Psytest.ServiceMain.Controllers
             return Ok(test);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Test>> CreateTest([FromBody] CreateTestCommand command)
+        {
+            var created = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        }
+
         [HttpPost("{sessionId:guid}/luscher")]
         public async Task<ActionResult<TestResult>> ProcessLuscherTest(Guid sessionId, [FromBody] LuscherAnswers answers)
         {
@@ -51,6 +64,15 @@ namespace Psytest.ServiceMain.Controllers
         public async Task<ActionResult<TestResult>> ProcessPbqTest(Guid sessionId, [FromBody] PbqAnswers answers)
         {
             var command = new ProcessPbqTestCommand(sessionId, answers);
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost("{sessionId:guid}/schmieschek")]
+        public async Task<ActionResult<TestResult>> ProcessSchmieschekTest(Guid sessionId, [FromBody] SchmieschekAnswers answers)
+        {
+            var command = new ProcessSchmieschekTestCommand(sessionId, answers);
             var result = await _mediator.Send(command);
 
             return Ok(result);

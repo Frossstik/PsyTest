@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 :root {
-    --color-brand: #00cccc; /* turquoise */
-    --color-brand-light: #89f6f0;
-    --color-brand-dark: #259b94;
+    --color-brand: #00cccc;
+    --color-brand-light: #66E0E0;
+    --color-brand-dark: #008B8B;
 }
