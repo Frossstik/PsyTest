@@ -134,7 +134,13 @@ export default function PbqTest() {
             <Header />
             <main className="max-w-4xl mx-auto p-6">
                 <h2 className="text-2xl font-bold mb-6">PBQ Тест</h2>
-
+                <h3 className="text-2xl font-bold mb-6 text-gray-800">
+                    0 - Абсолютно не согласен,
+                    1 - Не согласен,
+                    2 - Затрудняюсь ответить,
+                    3 - Согласен,
+                    4 - Абсолютно согласен.
+                </h3>
                 <div className="space-y-6">
                     {QUESTIONS.map((q, i) => (
                         <div

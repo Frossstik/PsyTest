@@ -12,6 +12,7 @@ import Test from "./pages/Test";
 import Result from "./pages/Results";
 import PbqTest from "./pages/Tests/PbqTest";
 import SchmieschekTest from "./pages/Tests/SchmieschekTest";
+import StaiTest from "./pages/Tests/StaiTest";
 
 
 export default function App() {
@@ -62,6 +63,12 @@ export default function App() {
                     <Route path="/tests/:id/schmieschek" element={
                         <ProtectedRoute>
                             <SchmieschekTest/>
+                        </ProtectedRoute>
+                    }
+                    />
+                    <Route path="/tests/:id/stai" element={
+                        <ProtectedRoute>
+                            <StaiTest />
                         </ProtectedRoute>
                     }
                     />

@@ -7,6 +7,7 @@ using Psytest.ServiceMain.Application.Commands.CreateTest;
 using Psytest.ServiceMain.Application.Commands.ProcessLuscherTest;
 using Psytest.ServiceMain.Application.Commands.ProcessPbqTest;
 using Psytest.ServiceMain.Application.Commands.ProcessSchmieschekTest;
+using Psytest.ServiceMain.Application.Commands.ProcessStaiTest;
 using Psytest.ServiceMain.Application.Queries;
 using Psytest.ServiceMain.Application.Queries.GetTestById;
 using Psytest.ServiceMain.Application.Queries.GetTests;
@@ -73,6 +74,15 @@ namespace Psytest.ServiceMain.Controllers
         public async Task<ActionResult<TestResult>> ProcessSchmieschekTest(Guid sessionId, [FromBody] SchmieschekAnswers answers)
         {
             var command = new ProcessSchmieschekTestCommand(sessionId, answers);
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost("{sessionId:guid}/stai")]
+        public async Task<ActionResult<TestResult>> ProcessStaiTest(Guid sessionId, [FromBody] StaiAnswers answers)
+        {
+            var command = new ProcessStaiTestCommand(sessionId, answers);
             var result = await _mediator.Send(command);
 
             return Ok(result);

@@ -121,6 +121,9 @@ builder.Services.AddScoped<IChartGenerator, PbqTestProcessor>();
 builder.Services.AddScoped<ITestProcessor, SchmieschekTestProcessor>();
 builder.Services.AddScoped<IChartGenerator, SchmieschekTestProcessor>();
 
+builder.Services.AddScoped<ITestProcessor, StaiTestProcessor>();
+builder.Services.AddScoped<IChartGenerator, StaiTestProcessor>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

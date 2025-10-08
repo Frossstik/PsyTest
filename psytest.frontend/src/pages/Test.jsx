@@ -44,7 +44,10 @@ export default function Test() {
                 navigate(`/tests/${id}/luscher?sessionId=${session.sessionId}`);
             } else if (test.name.toLowerCase().includes("шмишека")) {
                 navigate(`/tests/${id}/schmieschek?sessionId=${session.sessionId}`);
+            } else if (test.name.toLowerCase().includes("stai")) {
+                navigate(`/tests/${id}/stai?sessionId=${session.sessionId}`);
             } else {
+                console.log(test.name);
                 alert("Неизвестный тип теста");
             }
         } else {
