@@ -87,7 +87,7 @@ export default function LuscherTest() {
         };
 
         const res = await fetch(
-            `${import.meta.env.VITE_MAIN_URL}/api/Tests/${sessionId}/luscher`,
+            `${import.meta.env.VITE_MAIN_URL}/Tests/${sessionId}/luscher`,
             {
                 method: "POST",
                 headers: {

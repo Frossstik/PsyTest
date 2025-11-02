@@ -32,7 +32,6 @@ builder.Services.Configure<ReportsOptions>(builder.Configuration.GetSection("Rep
 // CQRS (MediatR)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-builder.Services.AddTransient<ITestProcessor, PbqTestProcessor>();
 
 
 
@@ -123,6 +122,9 @@ builder.Services.AddScoped<IChartGenerator, SchmieschekTestProcessor>();
 
 builder.Services.AddScoped<ITestProcessor, StaiTestProcessor>();
 builder.Services.AddScoped<IChartGenerator, StaiTestProcessor>();
+
+builder.Services.AddScoped<ITestProcessor, BaiTestProcessor>();
+builder.Services.AddScoped<IChartGenerator, BaiTestProcessor>();
 
 builder.Services.AddCors(options =>
 {

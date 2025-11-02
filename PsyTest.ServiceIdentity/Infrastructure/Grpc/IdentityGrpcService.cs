@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using PsyTest.identity;
-using PsyTest.ServiceIdentity.Entities;
+using PsyTest.ServiceIdentity.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace PsyTest.ServiceIdentity
+namespace PsyTest.ServiceIdentity.Infrastructure.Grpc
 {
     public class IdentityGrpcService : Identity.IdentityBase
     {

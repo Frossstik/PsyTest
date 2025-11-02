@@ -10,8 +10,7 @@ export default function EditProfile() {
         firstName: "",
         lastName: "",
         phoneNumber: "",
-        email: "",
-        password: ""
+        email: ""
     });
 
     useEffect(() => {
@@ -28,8 +27,7 @@ export default function EditProfile() {
                         firstName: data.firstName || "",
                         lastName: data.lastName || "",
                         phoneNumber: data.phoneNumber || "",
-                        email: data.email || "",
-                        password: "" // пароль меняется только вручную
+                        email: data.email || ""
                     })
                 )
                 .catch(() => logout());
@@ -106,17 +104,6 @@ export default function EditProfile() {
                             name="email"
                             value={profile.email}
                             onChange={handleChange}
-                            className="w-full border px-3 py-2 rounded-lg"
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 font-medium">Новый пароль</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={profile.password}
-                            onChange={handleChange}
-                            placeholder="Оставьте пустым, если не меняете"
                             className="w-full border px-3 py-2 rounded-lg"
                         />
                     </div>

@@ -11,7 +11,7 @@ export default function Test() {
 
     // Загружаем данные теста
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_MAIN_URL}/api/tests/${id}`)
+        fetch(`${import.meta.env.VITE_MAIN_URL}/tests/${id}`)
             .then((res) => res.json())
             .then((data) => setTest(data));
     }, [id]);
@@ -26,7 +26,7 @@ export default function Test() {
         }
 
         const res = await fetch(
-            `${import.meta.env.VITE_MAIN_URL}/api/Sessions/${id}/sessions`,
+            `${import.meta.env.VITE_MAIN_URL}/Sessions/${id}/sessions`,
             {
                 method: "POST",
                 headers: {
@@ -46,6 +46,8 @@ export default function Test() {
                 navigate(`/tests/${id}/schmieschek?sessionId=${session.sessionId}`);
             } else if (test.name.toLowerCase().includes("stai")) {
                 navigate(`/tests/${id}/stai?sessionId=${session.sessionId}`);
+            } else if (test.name.toLowerCase().includes("bai")) {
+                navigate(`/tests/${id}/bai?sessionId=${session.sessionId}`);
             } else {
                 console.log(test.name);
                 alert("Неизвестный тип теста");
@@ -61,7 +63,7 @@ export default function Test() {
             <main className="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl mt-6">
                 <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
                 <p className="text-gray-700 mb-6">
-                    {test.fullDescription || test.shortDescription}
+                    {test.description}
                 </p>
                 <button
                     onClick={startTest}

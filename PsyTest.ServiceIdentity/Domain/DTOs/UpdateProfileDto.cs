@@ -1,4 +1,4 @@
-﻿namespace PsyTest.ServiceIdentity.DTOs
+﻿namespace PsyTest.ServiceIdentity.Domain.DTOs
 {
     public class UpdateProfileDto
     {
@@ -6,6 +6,5 @@
         public string LastName { get; set; } = string.Empty;
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; } // если нужно менять
-        public string? Password { get; set; } // опционально, если юзер меняет пароль
     }
 }

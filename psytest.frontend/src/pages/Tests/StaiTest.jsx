@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import Header from "../../components/Header";
 
 export default function StaiTest() {
-    const { id } = useParams(); // testId (не sessionId!)
+    const { id } = useParams();
     const [searchParams] = useSearchParams();
     const sessionId = searchParams.get("sessionId");
     const { token } = useAuth();
@@ -56,6 +56,12 @@ export default function StaiTest() {
         "Меня охватывает беспокойство, когда я думаю о своих делах и заботах"
     ];
 
+    const OPTIONS = [
+        { value: 1, label: "Никогда" },
+        { value: 2, label: "Почти никогда" },
+        { value: 3, label: "Часто" },
+        { value: 4, label: "Почти всегда" },
+    ];
 
     // Загружаем сохранённые ответы
     useEffect(() => {
@@ -90,7 +96,7 @@ export default function StaiTest() {
         const dto = { age: parseInt(age), answers };
 
         const res = await fetch(
-            `${import.meta.env.VITE_MAIN_URL}/api/Tests/${sessionId}/stai`,
+            `${import.meta.env.VITE_MAIN_URL}/Tests/${sessionId}/stai`,
             {
                 method: "POST",
                 headers: {
@@ -115,18 +121,15 @@ export default function StaiTest() {
         <div className="min-h-screen bg-gray-50">
             <Header />
             <main className="max-w-4xl mx-auto p-6">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                <h2 className="text-2xl font-bold mb-2 text-gray-800">
                     Тест Спилбергера–Ханина (STAI)
                 </h2>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                    1 - Никогда,
-                    2 - Почти никогда,
-                    3 - Часто,
-                    4 - Почти всегда.
-                </h3>
+                <p className="text-gray-600 mb-6">
+                    Выберите один вариант ответа для каждого утверждения:
+                </p>
 
                 {/* Возраст */}
-                <div className="mb-6">
+                <div className="mb-8">
                     <label className="block mb-2 font-medium text-gray-700">
                         Ваш возраст:
                     </label>
@@ -144,20 +147,24 @@ export default function StaiTest() {
                     {QUESTIONS.map((q, i) => (
                         <div
                             key={i}
-                            className="bg-white shadow p-4 rounded-lg border border-gray-200"
+                            className="bg-white shadow p-5 rounded-xl border border-gray-200"
                         >
-                            <p className="font-medium mb-3">{i + 1}. {q}</p>
-                            <div className="flex gap-2 flex-wrap">
-                                {[1, 2, 3, 4].map((val) => (
+                            <p className="font-medium mb-4 text-gray-800">
+                                {i + 1}. {q}
+                            </p>
+
+                            {/* вертикальные варианты с подписями */}
+                            <div className="flex flex-col gap-2">
+                                {OPTIONS.map((opt) => (
                                     <button
-                                        key={val}
-                                        onClick={() => handleAnswer(i, val)}
-                                        className={`px-3 py-1 rounded-lg border ${answers[i] === val
-                                            ? "bg-[color:var(--color-brand)] text-white"
-                                            : "bg-gray-100 hover:bg-gray-200"
+                                        key={opt.value}
+                                        onClick={() => handleAnswer(i, opt.value)}
+                                        className={`text-left px-4 py-3 rounded-lg border transition ${answers[i] === opt.value
+                                            ? "bg-[color:var(--color-brand)] text-white border-[color:var(--color-brand)]"
+                                            : "bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-800"
                                             }`}
                                     >
-                                        {val}
+                                        {opt.value}. {opt.label}
                                     </button>
                                 ))}
                             </div>
@@ -168,7 +175,7 @@ export default function StaiTest() {
                 {/* Кнопка завершения */}
                 <button
                     onClick={handleSubmit}
-                    className="mt-8 px-6 py-2 bg-[color:var(--color-brand)] text-white rounded-lg hover:bg-[color:var(--color-brand-dark)] transition"
+                    className="mt-10 px-6 py-3 bg-[color:var(--color-brand)] text-white rounded-lg hover:bg-[color:var(--color-brand-dark)] transition"
                 >
                     Завершить тест
                 </button>
@@ -176,3 +183,4 @@ export default function StaiTest() {
         </div>
     );
 }
+

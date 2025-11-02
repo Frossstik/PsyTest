@@ -10,7 +10,7 @@ export default function Result() {
 
     useEffect(() => {
         const fetchResult = async () => {
-            const res = await fetch(`${import.meta.env.VITE_MAIN_URL}/api/Results/results/${sessionId}`, {
+            const res = await fetch(`${import.meta.env.VITE_MAIN_URL}/Results/results/${sessionId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

@@ -148,7 +148,7 @@ export default function SchmieschekTest() {
         };
 
         const res = await fetch(
-            `${import.meta.env.VITE_MAIN_URL}/api/Tests/${sessionId}/schmieschek`,
+            `${import.meta.env.VITE_MAIN_URL}/Tests/${sessionId}/schmieschek`,
             {
                 method: "POST",
                 headers: {

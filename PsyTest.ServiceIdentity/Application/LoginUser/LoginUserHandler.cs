@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using PsyTest.ServiceIdentity.Common;
-using PsyTest.ServiceIdentity.Entities;
+using PsyTest.ServiceIdentity.Domain.Entities;
 
-namespace PsyTest.ServiceIdentity.Features.LoginUser
+namespace PsyTest.ServiceIdentity.Application.LoginUser
 {
     public class LoginUserHandler : IRequestHandler<LoginUserCommand, string?>
     {

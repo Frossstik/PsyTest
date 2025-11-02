@@ -1,8 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using PsyTest.ServiceIdentity.Entities;
 using System.Security.Claims;
 using System.Text;
+using PsyTest.ServiceIdentity.Domain.Entities;
 
 namespace PsyTest.ServiceIdentity.Common
 {

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PsyTest.ServiceIdentity.Entities;
+using PsyTest.ServiceIdentity.Domain.Entities;
 
-namespace PsyTest.ServiceIdentity.Features.RegisterUser
+namespace PsyTest.ServiceIdentity.Application.RegisterUser
 {
     public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, IdentityResult>
     {

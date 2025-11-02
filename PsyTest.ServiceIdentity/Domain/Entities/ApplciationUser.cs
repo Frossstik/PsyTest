@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace PsyTest.ServiceIdentity.Entities
+namespace PsyTest.ServiceIdentity.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {

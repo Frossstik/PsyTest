@@ -53,11 +53,10 @@ namespace Psytest.ServiceMain.Controllers
 
         [Authorize]
         [HttpGet("history/{userId:guid}")]
-        public async Task<IActionResult> GetHistory(Guid userId)
+        public async Task<IActionResult> GetHistory(Guid userId, [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
         {
-            var history = await _mediator.Send(new GetTestHistoryQuery(userId));
-            return Ok(history);
+            var hal = await _mediator.Send(new GetTestHistoryQuery(userId, page, pageSize));
+            return Ok(hal);
         }
-
     }
 }

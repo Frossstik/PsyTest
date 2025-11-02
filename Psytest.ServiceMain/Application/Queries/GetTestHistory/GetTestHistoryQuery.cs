@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Psytest.ServiceMain.Domain.DTOs;
-using Psytest.ServiceMain.Domain.Entities;
 
 namespace Psytest.ServiceMain.Application.Queries.GetTestHistory
 {
-    public record GetTestHistoryQuery(Guid UserId) : IRequest<List<TestHistoryDto>>;
+    public record GetTestHistoryQuery(Guid UserId, int Page = 1, int PageSize = 5)
+        : IRequest<TestHistoryHalDto>;
 }

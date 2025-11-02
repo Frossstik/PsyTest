@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace PsyTest.ServiceIdentity.Features.RegisterUser
+namespace PsyTest.ServiceIdentity.Application.RegisterUser
 {
     public record RegisterUserCommand(
         string UserName,

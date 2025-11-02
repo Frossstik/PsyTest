@@ -10,7 +10,7 @@ export default function Home() {
     const { token } = useAuth();
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_MAIN_URL}/api/tests`)
+        fetch(`${import.meta.env.VITE_MAIN_URL}/tests`)
             .then((res) => res.json())
             .then((data) => setTests(data));
     }, []);

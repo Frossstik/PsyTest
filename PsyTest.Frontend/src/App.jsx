@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ConfirmPasswordChangePage from "./pages/ConfirmPasswordChangePage";
 import EditProfile from "./pages/EditProfile";
 import LuscherTest from "./pages/Tests/LuscherTest";
 import Test from "./pages/Test";
@@ -13,6 +15,7 @@ import Result from "./pages/Results";
 import PbqTest from "./pages/Tests/PbqTest";
 import SchmieschekTest from "./pages/Tests/SchmieschekTest";
 import StaiTest from "./pages/Tests/StaiTest";
+import BaiTest from "./pages/Tests/BaiTest";
 
 
 export default function App() {
@@ -23,14 +26,7 @@ export default function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route
-                        path="/"
-                        element={
-                            <ProtectedRoute>
-                                <Home />
-                            </ProtectedRoute>
-                        }
-                    />
+                    <Route path="/" element={<Home />} />
                     <Route
                         path="/profile"
                         element={
@@ -62,7 +58,7 @@ export default function App() {
                     />
                     <Route path="/tests/:id/schmieschek" element={
                         <ProtectedRoute>
-                            <SchmieschekTest/>
+                            <SchmieschekTest />
                         </ProtectedRoute>
                     }
                     />
@@ -72,6 +68,14 @@ export default function App() {
                         </ProtectedRoute>
                     }
                     />
+                    <Route path="/tests/:id/bai" element={
+                        <ProtectedRoute>
+                            <BaiTest />
+                        </ProtectedRoute>
+                    }
+                    />
+                    <Route path="/profile/security" element={<ChangePasswordPage />} />
+                    <Route path="/confirm-password-change" element={<ConfirmPasswordChangePage />} />
                     <Route path="/results/:sessionId" element={<Result />} />
                 </Routes>
             </Router>

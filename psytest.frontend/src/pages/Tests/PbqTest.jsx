@@ -78,6 +78,14 @@ export default function PbqTest() {
         "Я не умею преодолевать трудности, как другие люди"
     ];
 
+    const OPTIONS = [
+        "Абсолютно не согласен",
+        "Не согласен",
+        "Затрудняюсь ответить",
+        "Согласен",
+        "Абсолютно согласен",
+    ];
+
 
     const [answers, setAnswers] = useState(Array(65).fill(null));
 
@@ -107,7 +115,7 @@ export default function PbqTest() {
         const dto = { answers };
 
         const res = await fetch(
-            `${import.meta.env.VITE_MAIN_URL}/api/Tests/${sessionId}/pbq`,
+            `${import.meta.env.VITE_MAIN_URL}/Tests/${sessionId}/pbq`,
             {
                 method: "POST",
                 headers: {
@@ -132,33 +140,34 @@ export default function PbqTest() {
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
-            <main className="max-w-4xl mx-auto p-6">
-                <h2 className="text-2xl font-bold mb-6">PBQ Тест</h2>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                    0 - Абсолютно не согласен,
-                    1 - Не согласен,
-                    2 - Затрудняюсь ответить,
-                    3 - Согласен,
-                    4 - Абсолютно согласен.
-                </h3>
-                <div className="space-y-6">
+            <main className="max-w-5xl mx-auto p-6">
+                <h2 className="text-2xl font-bold mb-6">Тест PBQ (Personality Belief Questionnaire)</h2>
+                <p className="text-gray-600 mb-6">
+                    Оцените степень согласия с каждым утверждением по шкале:
+                </p>
+
+                <div className="space-y-8">
                     {QUESTIONS.map((q, i) => (
                         <div
                             key={i}
-                            className="bg-white shadow p-4 rounded-lg border border-gray-200"
+                            className="bg-white shadow p-5 rounded-xl border border-gray-200"
                         >
-                            <p className="font-medium mb-3">{i + 1}. {q}</p>
-                            <div className="flex gap-2">
-                                {[0, 1, 2, 3, 4].map((val) => (
+                            <p className="font-medium mb-4 text-gray-800">
+                                {i + 1}. {q}
+                            </p>
+
+                            {/* 🔹 Вертикальные кнопки */}
+                            <div className="flex flex-col gap-2">
+                                {OPTIONS.map((label, idx) => (
                                     <button
-                                        key={val}
-                                        onClick={() => handleAnswer(i, val)}
-                                        className={`px-3 py-1 rounded-lg border ${answers[i] === val
-                                                ? "bg-[color:var(--color-brand)] text-white"
-                                                : "bg-gray-100 hover:bg-gray-200"
+                                        key={idx}
+                                        onClick={() => handleAnswer(i, idx)}
+                                        className={`text-left px-4 py-3 rounded-lg border transition ${answers[i] === idx
+                                                ? "bg-[color:var(--color-brand)] text-white border-[color:var(--color-brand)]"
+                                                : "bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-800"
                                             }`}
                                     >
-                                        {val}
+                                        {label}
                                     </button>
                                 ))}
                             </div>
@@ -168,7 +177,7 @@ export default function PbqTest() {
 
                 <button
                     onClick={handleSubmit}
-                    className="mt-8 px-6 py-2 bg-[color:var(--color-brand)] text-white rounded-lg hover:bg-[color:var(--color-brand-dark)] transition"
+                    className="mt-10 px-6 py-3 bg-[color:var(--color-brand)] text-white rounded-lg hover:bg-[color:var(--color-brand-dark)] transition"
                 >
                     Завершить тест
                 </button>

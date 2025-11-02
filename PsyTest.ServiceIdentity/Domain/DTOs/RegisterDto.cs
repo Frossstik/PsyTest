@@ -1,4 +1,4 @@
-﻿namespace PsyTest.ServiceIdentity.DTOs
+﻿namespace PsyTest.ServiceIdentity.Domain.DTOs
 {
     public class RegisterDto
     {

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PsyTest.ServiceIdentity.Entities;
+using PsyTest.ServiceIdentity.Domain.Entities;
 
-namespace PsyTest.ServiceIdentity.Features.UpdateProfile
+namespace PsyTest.ServiceIdentity.Application.UpdateProfile
 {
     public class UpdateProfileHandler : IRequestHandler<UpdateProfileCommand, IdentityResult>
     {
@@ -27,13 +27,6 @@ namespace PsyTest.ServiceIdentity.Features.UpdateProfile
                 user.Email = request.Email;
 
             var result = await _userManager.UpdateAsync(user);
-
-            // смена пароля
-            if (result.Succeeded && !string.IsNullOrEmpty(request.Password))
-            {
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                result = await _userManager.ResetPasswordAsync(user, token, request.Password);
-            }
 
             return result;
         }

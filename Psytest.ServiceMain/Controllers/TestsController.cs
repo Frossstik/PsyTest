@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using Psytest.ServiceMain.Application.Commands;
 using Psytest.ServiceMain.Application.Commands.CreateTest;
+using Psytest.ServiceMain.Application.Commands.ProcessBaiTest;
 using Psytest.ServiceMain.Application.Commands.ProcessLuscherTest;
 using Psytest.ServiceMain.Application.Commands.ProcessPbqTest;
 using Psytest.ServiceMain.Application.Commands.ProcessSchmieschekTest;
@@ -87,5 +88,15 @@ namespace Psytest.ServiceMain.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("{sessionId:guid}/bai")]
+        public async Task<ActionResult<TestResult>> ProcessBaiTest(Guid sessionId, [FromBody] BaiAnswers answers)
+        {
+            var command = new ProcessBaiTestCommand(sessionId, answers);
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
     }
 }

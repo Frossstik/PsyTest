@@ -208,7 +208,7 @@ namespace Psytest.ServiceMain.Domain.Logic
                     doc.InsertParagraph("Сырые баллы:").FontSize(13).Bold().Alignment = Xceed.Document.NET.Alignment.center;
                     using var imgStream = new MemoryStream(rawChart);
                     var img = doc.AddImage(imgStream);
-                    var pic = img.CreatePicture(400, 150);
+                    var pic = img.CreatePicture(150, 400);
                     var p = doc.InsertParagraph();
                     p.AppendPicture(pic);
                     p.Alignment = Xceed.Document.NET.Alignment.center;
@@ -219,7 +219,7 @@ namespace Psytest.ServiceMain.Domain.Logic
                     doc.InsertParagraph("Стен-баллы:").FontSize(13).Bold().Alignment = Xceed.Document.NET.Alignment.center;
                     using var imgStream = new MemoryStream(stenChart);
                     var img = doc.AddImage(imgStream);
-                    var pic = img.CreatePicture(400, 150);
+                    var pic = img.CreatePicture(150, 400);
                     var p = doc.InsertParagraph();
                     p.AppendPicture(pic);
                     p.Alignment = Xceed.Document.NET.Alignment.center;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PsyTest.ServiceIdentity.Entities;
+using PsyTest.ServiceIdentity.Domain.Entities;
 
-namespace PsyTest.ServiceIdentity
+namespace PsyTest.ServiceIdentity.Infrastructure
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
